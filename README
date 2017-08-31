@@ -1,0 +1,2 @@
+./make_inputs.pl -list=list -dir=test -npara=8
+
