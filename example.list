@@ -1,0 +1,18 @@
+>PDB
+f168 = ~/pdb/f168.pdb
+r005 = ~/paper/3_2017/structures/ref/r005.pdb 
+
+>SILENT
+rs1_r2x3 = /home/users/xl2/paper/3_2017/backbones/rs1_r2x3/b-sheet/sample14_centroid/data/1
+
+>THREADSEQ
+rs1_r2x3 = ~/paper/3_2017/structures/ref/r005.pdb  
+
+>OPTIONS
+limit_aroma_chi2
+cst_start_coord
+nstruct 5000
+njobs 16
+
+>WEIGHT
+beta_nov15

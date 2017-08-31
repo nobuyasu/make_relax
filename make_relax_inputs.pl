@@ -17,7 +17,7 @@ my $NAME   = $optn->{option}->{name};
 my $weight = ${weightdir_orig}.$optn->{option}->{weight};
 
 my $flags = ADD_FLAGS->new;
-$flags->add_flags( $weight, $optn->{option}->{lac2}, $optn->{option}->{cstfile}, $optn->{option}->{cststart}, $optn->{option}->{threadseq} );
+$flags->add_flags( $weight, $optn->{option}->{limit_aroma_chi2}, $optn->{option}->{cstfile}, $optn->{option}->{cst_start_coord}, $optn->{option}->{threadseq}, $optn->{option}->{nstruct} );
 
 # obtain silent files
 my @all_silent_inputs;
@@ -37,7 +37,7 @@ for ( my $ii=1; $ii<=$NJOBS; $ii++ ) {
 
   my $name = $NAME."_".$ii;
 
-  if( $#all_silent_inputs < $ii-1 ) {
+  if( ( $#all_silent_inputs < $ii-1 ) && $optn->{read_silent} ) {
     last;
   }
 

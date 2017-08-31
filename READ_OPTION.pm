@@ -59,7 +59,6 @@ sub read_options {
 	     type => 'string',
 	     required => 0,
     },
-
     cst_start_coord => {
        type => 'string',
 	     required => 0,

@@ -15,7 +15,7 @@ sub new {
 sub add_flags {
 
   my $this = shift;
-  my ( $weight, $lac2, $cstfile, $cststart, $thredseq ) = @_;
+  my ( $weight, $lac2, $cstfile, $cststart, $threadseq, $nstruct ) = @_;
 
   # weight
   $weight = `readlink -f $weight`; chomp $weight;
@@ -35,22 +35,28 @@ sub add_flags {
     if( !-e $cstfile ) {
 	     die ( "die no $cstfile file\n" );
     }
-      $this->{flags} = $this->{flags}." -constraints::cst_fa_file $cstfile";
+    $this->{flags} = $this->{flags}." -constraints::cst_fa_file $cstfile";
   }
 
   # constraint to start coordinates
-  if ( $optn{cst_startcrd} ) {
+  if ( $cststart ) {
       $this->{flags} = $this->{flags}." -constrain_relax_to_start_coords";
   }
 
   # thread sequence
-  if ( $optn{threadseq} ne "" ) {
+  if ( $threadseq ne "" ) {
     $threadseq = `readlink -f $threadseq`; chomp $threadseq;
     if( !-e $threadseq ) {
 	     die ( "die no $threadseq file\n" );
     }
     $this->{flags} = $this->{flags}." -relax:thread_seq $threadseq";
   }
+
+  # add nstcut
+  if ( $nstruct ) {
+      $this->{flags} = $this->{flags}." -nstruct $nstruct";
+  }
+
 
 }
 
@@ -92,7 +98,7 @@ sub add_silent_files {
 
   my @silents;
   foreach my $n ( sort { $a <=> $b } keys %silents ) {
-      print "$n $silents{$n} \n";
+      #print "$n $silents{$n} \n";
       push( @silents, $silents{$n} );
   };
 
