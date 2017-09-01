@@ -33,6 +33,7 @@ use App::Options(
 );
 
 my $script = "~/scripts/relax/make_relax_inputs.pl ";
+my $plot_score_r = "~/scripts/relax/plot_score.R";
 
 open( LIST, "$optn{list}" ) || die ( "cannot open $optn{list}");
 while ( my $line = <LIST> ) {
@@ -88,7 +89,11 @@ if ( ! -e $optn{dir} ) {
   system( "mkdir $optn{dir} ");
 }
 
+system( "cp $optn{list} $optn{dir}" );
 
+open( ANAL, ">$optn{dir}/analyze.sh" );
+print ANAL "#/bin/sh\n";
+print ANAL "R --file=$plot_score_r --args ";
 foreach $name ( @namelist ) {
 
   $ii ++;
@@ -109,7 +114,13 @@ foreach $name ( @namelist ) {
     system ( "$script -dir=$optn{dir}/$name -name=$name -silent=$silent -threadseq=$thread $option \n");
   }
 
+  my $outdir = `readlink -f $optn{dir}/$name`; chomp $outdir;
+  print ANAL " $outdir ";
+
 }
 
 system( "cat $optn{dir}/*/joblist\.* > $optn{dir}/joblist_all" );
 system( "cd $optn{dir}; ~/scripts/make_jsub.pl --list=joblist_all --npara=$optn{npara} --queue=$optn{queue} --jobtype=$optn{jobtype} " );
+print ANAL "\n";
+
+system( "chmod +x $optn{dir}/analyze.sh" );
