@@ -1,10 +1,13 @@
 #!/usr/bin/perl
 
+use lib "/home/users/xl2/perllib";
+use lib "/home/users/xl2/scripts/relax";
+
 use READ_OPTION;
 use ADD_FLAGS;
 
-my $rosetta_exe     = "~/rosetta/Rosetta/main/source/bin/relax.linuxgccrelease -database ~/rosetta/Rosetta/main/database";
-my $weightdir_orig = "~/rosetta/Rosetta/main/database/scoring/weights/";
+my $rosetta_exe     = "/home/users/xl2/rosetta/Rosetta/main/source/bin/relax.linuxgccrelease -database ~/rosetta/Rosetta/main/database";
+my $weightdir_orig  = "/home/users/xl2/rosetta/Rosetta/main/database/scoring/weights/";
 
 my $PWD = `pwd`; chomp $PWD;
 
@@ -17,7 +20,7 @@ my $NAME   = $optn->{option}->{name};
 my $weight = ${weightdir_orig}.$optn->{option}->{weight};
 
 my $flags = ADD_FLAGS->new;
-$flags->add_flags( $weight, $optn->{option}->{limit_aroma_chi2}, $optn->{option}->{cstfile}, $optn->{option}->{cst_start_coord}, $optn->{option}->{threadseq}, $optn->{option}->{nstruct} );
+$flags->add_flags( $weight, $optn->{option}->{limit_aroma_chi2}, $optn->{option}->{cstfile}, $optn->{option}->{cst_start_coord}, $optn->{option}->{threadseq}, $optn->{option}->{nstruct}, $optn->{option}->{pre_tala} );
 
 # obtain silent files
 my @all_silent_inputs;

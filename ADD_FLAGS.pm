@@ -15,8 +15,11 @@ sub new {
 sub add_flags {
 
   my $this = shift;
-  my ( $weight, $lac2, $cstfile, $cststart, $threadseq, $nstruct ) = @_;
+  my ( $weight, $lac2, $cstfile, $cststart, $threadseq, $nstruct, $pre_tala ) = @_;
 
+  if( $pre_tala || $weight =~ m/score12/ ) {
+    $this->{flags} = $this->{flags}." -pre_talaris2013_geometries ";
+  }
   # weight
   $weight = `readlink -f $weight`; chomp $weight;
   if( !-e $weight ) {

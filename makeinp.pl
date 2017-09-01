@@ -11,7 +11,6 @@ use App::Options(
       type => 'string',
       required => 1,
     },
-
 	  list => {
 	    type => 'string',
 	    required => 1,
@@ -28,12 +27,20 @@ use App::Options(
       type => 'string',
       default => 'small',
     },
+    sizex  => {
+      type => 'integer',
+      default => 12,
+    },
+    sizey  => {
+      type => 'integer',
+      default => 8,
+    },
 
     },
 );
 
-my $script = "~/scripts/relax/make_relax_inputs.pl ";
-my $plot_score_r = "~/scripts/relax/plot_score.R";
+my $script = "/home/users/xl2/scripts/relax/make_relax_inputs.pl ";
+my $plot_score_r = "/home/users/xl2/scripts/relax/plot_score.R";
 
 open( LIST, "$optn{list}" ) || die ( "cannot open $optn{list}");
 while ( my $line = <LIST> ) {
@@ -85,6 +92,8 @@ foreach my $opt ( @{$inputs->{OPTIONS}} ) {
 
 }
 
+
+
 if ( ! -e $optn{dir} ) {
   system( "mkdir $optn{dir} ");
 }
@@ -93,7 +102,7 @@ system( "cp $optn{list} $optn{dir}" );
 
 open( ANAL, ">$optn{dir}/analyze.sh" );
 print ANAL "#/bin/sh\n";
-print ANAL "R --file=$plot_score_r --args ";
+print ANAL "R --file=$plot_score_r --args $optn{dir} scoreplot.pdf $optn{sizex} $optn{sizey}";
 foreach $name ( @namelist ) {
 
   $ii ++;

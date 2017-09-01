@@ -16,9 +16,15 @@ library(stringr)
 library(ggplot2)
 library(reshape2)
 
-pdf( outfile, family = "Helvetica", width=8, height=8 )
+args = commandArgs(trailingOnly=TRUE)
+title = args[1]
+outfile = args[2]
+sizex   = args[3]
+sizey   = args[4]
 
-readdir = commandArgs(trailingOnly=TRUE)
+readdir = commandArgs(trailingOnly=TRUE)[5:length(args)]
+
+pdf( outfile, family = "Helvetica", width=sizez, height=sizey )
 
 score <- list()
 vdw   <- list()
@@ -26,7 +32,7 @@ hbond <- list()
 solv  <- list()
 filenames  <- vector()
 
-for( jj in 1:length( readdir ) ) {
+for( jj in 5:length( readdir ) ) {
 
   filename  = rev( str_split( readdir[jj], "/" )[[1]] )[1]
   files = list.files( path=readdir[jj], pattern="*.sc" )
@@ -58,6 +64,6 @@ g2 <- run_boxplot( vdw,   "vdw")
 g3 <- run_boxplot( hbond, "hbond")
 g4 <- run_boxplot( solv,  "solv")
 
-grid.arrange( g1, g2, g3, g4, ncol=2, top=weight )
+grid.arrange( g1, g2, g3, g4, ncol=2, top=title )
 
 dev.off()

@@ -75,6 +75,12 @@ sub read_options {
 	     type => 'string',
 	     default => "score12_full.wts",
     },
+    pre_tala => {
+	     type => 'string',
+	     default => 0,
+    },
+
+
 
   },
   );
